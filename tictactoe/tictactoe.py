@@ -58,27 +58,11 @@ def result(board, action):
     else:
         raise Exception("Invalid")
 
-'''
-def result(board, action):
-    """
-    Returns the board that results from making move (i, j) on the board.
-    """
-    l = action[0]
-    c = action[1]
-    if (board[l][c] == 'X') or (board[l][c] == 'O') or (l > 2) or (l < 0) or (c > 2) or (c < 0):
-        raise NotImplementedError
-    else:
-        boards_log.append(board)
-        board[l][c] = player(board)
-    return board
-'''
 
 def winner(board):
     """
     Returns the winner of the game, if there is one.
     """
-    #for i in board:
-    #    print(f'{i} XAAA\n')
     
     for i in range(3):
         if (board[i][0] == board[i][1]) and (board[i][1] == board[i][2]) and board[i][0] is not None:
@@ -126,8 +110,7 @@ def utility(board):
             return -1
         else:
             return 0
-'''
-implementation that works optmally
+
 def minimax(board):
     """
     Returns the optimal action for the current player on the board.
@@ -169,112 +152,3 @@ def min_value(board):
         v = min(v, max_value(result(board, action)))
     return v    #FIXED
 
-'''
-#implemtation that oks
-def minimax(board):
-    """
-    Returns the optimal action for the current player on the board.
-    """
-
-    if terminal(board):
-        return None
-
-    currentactions = actions(board)
-    if player(board) == X:
-        vT = -math.inf
-        #move = set()
-        for action in currentactions:
-            v, count = minvalue(result(board,action), 0)
-            if v > vT:
-                vT = v
-                move = action
-    else:
-        vT = math.inf
-        #move = set()
-        for action in currentactions:
-            v, count = maxvalue(result(board,action), 0)
-            if v < vT:
-                vT = v
-                move = action
-    return move
-
-def maxvalue(board, count):
-    """
-    Calculates the max value of a given board recursively together with minvalue
-    """
-
-    if terminal(board): return utility(board), count+1
-
-    v = -math.inf
-    posactions = actions(board)
-
-    for action in posactions:
-        vret, count = minvalue(result(board, action), count)
-        v = max(v, vret)
-    
-    return v, count+1
-
-def minvalue(board, count):
-    """
-    Calculates the min value of a given board recursively together with maxvalue
-    """
-
-    if terminal(board): return utility(board), count+1
-
-    v = math.inf
-    posactions = actions(board)
-
-    for action in posactions:
-        vret, count = maxvalue(result(board, action), count)
-        v = min(v, vret)
-    
-    return v, count+1
-
-'''
-my implementation
-def minimax(board):
-    """
-    Returns the optimal action for the current player on the board.
-    """
-
-    if terminal(board):
-        return None
-
-    if player(board) == X:
-        print(maxValue(board))
-    if player(board) == O:
-        print(minValue(board))
-
-    return True
-
-
-def maxValue(board):
-    if terminal(board):
-        #print("Entrei aqui agora Game Over")
-        print(utility(board))
-        return utility(board)
-    v = -99999999
-    for action in actions(board):
-        print('========')
-        print(action)
-        k = minValue(result(board, action))
-        if k > v:
-            v = k
-            best_move = action
-    return best_move
-
-def minValue(board):
-    if terminal(board):
-        #print("Entreiiii Game Over")
-        print(utility(board))
-        return utility(board)
-    v = 99999999
-    for action in actions(board):
-        print('========')
-        print(action)
-        v = min(v, maxValue(result(board, action)))
-    return v
-'''
-
-#print(initial_state())
-#print(minimax(initial_state()))
