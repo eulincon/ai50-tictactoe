@@ -59,7 +59,6 @@ def result(board, action):
         raise Exception("Invalid")
 
 '''
-Minha implementação
 def result(board, action):
     """
     Returns the board that results from making move (i, j) on the board.
@@ -125,31 +124,78 @@ def utility(board):
             return 1
         elif winner(board) == O:
             return -1
-    else:
-        return 0
-
+        else:
+            return 0
+'''
+implementation that works optmally
 def minimax(board):
     """
     Returns the optimal action for the current player on the board.
     """
+    current_player = player(board)
+
+    if terminal(board):
+        None
+
+    if current_player == X:
+        v = -math.inf
+        for action in actions(board):
+            k = min_value(result(board, action))    #FIXED
+            if k > v:
+                v = k
+                best_move = action
+    else:
+        v = math.inf
+        for action in actions(board):
+            k = max_value(result(board, action))    #FIXED
+            if k < v:
+                v = k
+                best_move = action
+    return best_move
+
+def max_value(board):
+    if terminal(board):
+        return utility(board)
+    v = -math.inf
+    for action in actions(board):
+        v = max(v, min_value(result(board, action)))
+    return v    #FIXED
+
+def min_value(board):
+    if terminal(board):
+        return utility(board)
+    v = math.inf
+    for action in actions(board):
+        v = min(v, max_value(result(board, action)))
+    return v    #FIXED
+
+'''
+#implemtation that oks
+def minimax(board):
+    """
+    Returns the optimal action for the current player on the board.
+    """
+
+    if terminal(board):
+        return None
+
     currentactions = actions(board)
     if player(board) == X:
         vT = -math.inf
-        move = set()
+        #move = set()
         for action in currentactions:
-            v, count = maxvalue(result(board,action), 0)
+            v, count = minvalue(result(board,action), 0)
             if v > vT:
                 vT = v
                 move = action
     else:
         vT = math.inf
-        move = set()
+        #move = set()
         for action in currentactions:
-            v, count = minvalue(result(board,action), 0)
+            v, count = maxvalue(result(board,action), 0)
             if v < vT:
                 vT = v
                 move = action
-    print(count)
     return move
 
 def maxvalue(board, count):
@@ -184,8 +230,8 @@ def minvalue(board, count):
     
     return v, count+1
 
-
 '''
+my implementation
 def minimax(board):
     """
     Returns the optimal action for the current player on the board.
@@ -229,5 +275,6 @@ def minValue(board):
         v = min(v, maxValue(result(board, action)))
     return v
 '''
-print(initial_state())
-print(minimax(initial_state()))
+
+#print(initial_state())
+#print(minimax(initial_state()))
